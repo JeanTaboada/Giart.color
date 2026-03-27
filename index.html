@@ -396,17 +396,23 @@ colores.forEach(c=>{
 
 document.getElementById("size").oninput=e=>brushSize=e.target.value;
 
-upload.onchange=e=>{
-    let reader=new FileReader();
-    reader.onload=ev=>{
-        img.onload=()=>{
-            canvas.width=img.width;
-            canvas.height=img.height;
-            ctx.drawImage(img,0,0);
-            originalImageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+upload.onchange = e => {
+    let reader = new FileReader();
+    reader.onload = ev => {
+        img.onload = () => {
+            // Limitar tamaño máximo del canvas
+            const maxWidth = 800;  // ancho máximo deseado
+            const maxHeight = 600; // alto máximo deseado
+            let ratio = Math.min(maxWidth / img.width, maxHeight / img.height, 1); // 1 evita agrandar imágenes pequeñas
+
+            canvas.width = img.width * ratio;
+            canvas.height = img.height * ratio;
+
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             agregarMarcaAgua(); // añado marca de agua al cargar
         }
-        img.src=ev.target.result;
+        img.src = ev.target.result;
     }
     reader.readAsDataURL(e.target.files[0]);
 };
