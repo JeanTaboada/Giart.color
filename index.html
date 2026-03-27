@@ -467,6 +467,50 @@ canvas.onmousemove=e=>{
 
     ctx.putImageData(imgData,x-brushSize,y-brushSize);
 };
+// Eventos táctiles para móviles
+canvas.addEventListener("touchstart", e => {
+    e.preventDefault(); // evita scroll al tocar
+    painting = true;
+    const touch = e.touches[0];
+    pintarEn(touch.clientX, touch.clientY);
+});
+
+canvas.addEventListener("touchend", e => {
+    painting = false;
+});
+
+canvas.addEventListener("touchmove", e => {
+    e.preventDefault();
+    if (!painting) return;
+    const touch = e.touches[0];
+    pintarEn(touch.clientX, touch.clientY);
+});
+
+// Función para centralizar la lógica de pintado
+function pintarEn(clientX, clientY) {
+    const rect = canvas.getBoundingClientRect();
+    let x = clientX - rect.left;
+    let y = clientY - rect.top;
+
+    let umbral = parseInt(document.getElementById("umbral").value);
+    let intensidad = parseFloat(document.getElementById("intensidad").value);
+
+    let imgData = ctx.getImageData(x - brushSize, y - brushSize, brushSize*2, brushSize*2);
+    let data = imgData.data;
+
+    for (let i = 0; i < data.length; i += 4) {
+        let r = data[i], g = data[i+1], b = data[i+2];
+        let brillo = (r+g+b)/3;
+
+        if (brillo < umbral) {
+            data[i] = r*(1-intensidad) + selectedColor.r*intensidad;
+            data[i+1] = g*(1-intensidad) + selectedColor.g*intensidad;
+            data[i+2] = b*(1-intensidad) + selectedColor.b*intensidad;
+        }
+    }
+
+    ctx.putImageData(imgData, x - brushSize, y - brushSize);
+}      
 </script>
 
 </body>
