@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GiArt Color Studio</title>
+
+<!-- Fuentes y Font Awesome -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      integrity="sha512-bx9HTC5xDkO2pP0Sg4u+2LHlzCjZ7OvV0JAz5qg0a/OEKz1eTULI2B6u4/5XhoJ+fI5N+rfyxh0RmxgC4uPRTA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- Splide CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #111;
+    color: #fff;
+}
+
+/* HEADER */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center; /* centramos el menu */
+    padding: 15px 20px;
+    z-index: 1000;
+    flex-wrap: wrap;
+}
+
+.logo {
+    color: #ff4da6;
+    font-weight: bold;
+    font-size: 22px;
+    margin-right: 40px;
+}
+
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.nav a {
+    color: #ccc;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.nav a:hover {
+    color: white;
+}
+
+/* HERO */
+.hero {
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    padding: 50px 20px;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)),
+        url('images/portada.png') center/cover no-repeat;
+    margin-top: 60px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #ff4da6;
+}
+
+h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+/* CHECK */
+.verified svg {
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+/* BOTON */
+.btn {
+    display:inline-block;
+    margin-top:15px;
+    padding:12px 25px;
+    background:#ff4da6;
+    border:none;
+    border-radius:25px;
+    color:white;
+    cursor:pointer;
+    font-weight: 500;
+}
+
+/* SECCIONES */
+.section {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+/* --- nuevo carrusel Splide --- */
+/* Opcional: ajusta que las imágenes sean cuadradas y se recorten con estilo */
+#splide img {
+  width: 250px;       /* ancho fijo cuadrado */
+  height: 250px;      /* alto fijo cuadrado */
+  object-fit: cover;  /* recorta sin estirar */
+  border-radius: 10px;
+}
+
+/* si quieres, puedes añadir sombras cuando el slide está activo */
+/* Splide tiene su propio estilo, pero esto refuerza el look atractivo */
+.splide__slide.is-active img {
+  box-shadow: 0 15px 25px rgba(0,0,0,0.4);
+}
+
+/* SIMULADOR */
+.simulator {
+    background:#1a1a1a;
+}
+
+canvas {
+    margin-top:20px;
+    border-radius:10px;
+    cursor:crosshair;
+}
+
+/* PALETA */
+.palette{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.colorBox{
+    width:90px;
+   	margin:5px;
+    cursor:pointer;
+}
+
+.colorPreview{
+    height:40px;
+    border-radius:10px;
+    border:2px solid white;
+}
+
+.code{
+    font-size:12px;
+}
+
+/* FOOTER */
+.footer {
+    background:#000;
+    padding:40px 20px;
+    text-align:center;
+}
+
+.footer a {
+    color:#ff4da6;
+    text-decoration:none;
+    display:block;
+    margin:5px 0;
+    font-size: 16px;
+}
+
+.footer a i {
+    margin-right: 8px;
+}
+
+.footer p {
+    color:#aaa;
+    margin-top:15px;
+}
+
+/* botón flotante WhatsApp */
+.whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: white;
+  padding: 16px;
+  border-radius: 50%;
+  font-size: 24px;
+  text-decoration: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1001; /* encima de otros elementos */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* botón flotante Instagram */
+.instagram {
+  position: fixed;
+  bottom: 20px;
+  right: 90px; /* separarlo a la izquierda del WhatsApp */
+  background: #E1306C; /* color característico de Instagram */
+  color: white;
+  padding: 16px;
+  border-radius: 50%;
+  font-size: 24px;
+  text-decoration: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="logo">GiArt.color</div>
+    <nav class="nav">
+        <a href="#">Inicio</a>
+        <a href="#trabajos">Trabajos</a>
+        <a href="#simulador">Simulador</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+<div>
+
+<div class="profile">
+<img src="images/giart.jpeg" alt="GiArt Color Studio">
+
+<div>
+<h1>
+GiArt Color Studio
+<span class="verified">
+<svg width="22" height="22" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="10" fill="#1da1f2"/>
+<path d="M10 14l-2-2 1.5-1.5L10 11l4.5-4.5L16 8l-6 6z" fill="white"/>
+</svg>
+</span>
+</h1>
+<p style="color:#aaa">@giart.color</p>
+</div>
+
+</div>
+
+<p>+10 años de experiencia en coloración profesional (balayage, rubios y correcciones).</p>
+
+<a href="#simulador" class="btn">Probar tu look</a>
+
+</div>
+</section>
+
+<!-- TRABAJOS -->
+<section id="trabajos" class="section">
+  <h2>Mis Trabajos</h2>
+
+  <!-- Splide -->
+  <div id="splide" class="splide">
+    <div class="splide__track">
+      <ul class="splide__list">
+        <!-- Reemplaza/enriquece estas rutas con tus propias imágenes -->
+        <li class="splide__slide"><img src="images/cobrizo.jpeg" alt="Trabajo 1"></li>
+        <li class="splide__slide"><img src="images/corbizo2.jpg" alt="Trabajo 2"></li>
+        <li class="splide__slide"><img src="images/DOBLECOLORACION.jpeg" alt="Trabajo 3"></li>
+        <li class="splide__slide"><img src="images/mechas.jpg" alt="Trabajo 4"></li>
+        <li class="splide__slide"><img src="images/mechas2.jpg" alt="Trabajo 5"></li>
+        <li class="splide__slide"><img src="images/negrobrillo.jpeg" alt="Trabajo 6"></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULADOR -->
+<section id="simulador" class="section simulator">
+
+<h2>Simulador de Color</h2>
+
+<input type="file" id="upload"><br>
+
+<label>Pincel:</label>
+<input type="range" id="size" min="5" max="80" value="25">
+
+<br>
+
+<label>Sensibilidad:</label>
+<input type="range" id="umbral" min="50" max="200" value="120">
+
+<br>
+
+<label>Intensidad:</label>
+<input type="range" id="intensidad" min="0.2" max="1" step="0.1" value="0.6">
+
+<br><br>
+
+<button class="btn" onclick="limpiar()">Limpiar</button>
+
+<h3>Colores</h3>
+<div class="palette" id="palette"></div>
+
+<canvas id="canvas"></canvas>
+
+</section>
+
+<!-- FOOTER -->
+<footer id="contacto" class="footer">
+
+<h2>Contacto</h2>
+
+<p>📱 WhatsApp: <i class="fa-brands fa-whatsapp"></i> +51 949 440 074</p>
+
+<a href="#"><i class="fa-brands fa-instagram"></i> Instagram: @giart.color</a>
+<a href="#"><i class="fa-brands fa-facebook"></i> Facebook: GiArt Color Studio</a>
+<a href="#"><i class="fa-brands fa-tiktok"></i> TikTok: @giart.color</a>
+
+<p>© 2026 GiArt Color Studio - Todos los derechos reservados</p>
+
+</footer>
+
+<!-- Botones flotantes opcionales si quieres mantenerlos -->
+<a class="whatsapp" href="https://wa.me/51949440074" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+<a class="instagram" href="https://instagram.com/giart.color" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+
+<!-- Splide JS -->
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
+
+<script>
+// Inicializar Splide
+document.addEventListener('DOMContentLoaded', function () {
+  new Splide('#splide', {
+    type: 'loop',
+    perPage: 3,         // cuántas imágenes se ven
+    focus: 'center',    // pone el slide en el centro
+    gap: '1rem',        // espacio entre slides
+    autoplay: true,
+    pauseOnHover: true,
+    breakpoints: {
+      768: { perPage: 1 },
+      1024: { perPage: 2 },
+    },
+  }).mount();
+});
+
+// SIMULADOR
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+let img = new Image();
+let originalImageData;
+
+let painting = false;
+let brushSize = 25;
+let selectedColor = {r:255,g:0,b:0};
+
+const colores = [
+    {name:"Negro", r:0,g:0,b:0},
+    {name:"Castaño", r:100,g:60,b:40},
+    {name:"Rubio", r:220,g:200,b:120},
+    {name:"Ceniza", r:160,g:160,b:150},
+    {name:"Platinado", r:245,g:245,b:230},
+    {name:"Cobrizo", r:180,g:80,b:30},
+    {name:"Rojo", r:180,g:30,b:30},
+    {name:"Azul", r:30,g:100,b:200},
+    {name:"Morado", r:120,g:50,b:180},
+    {name:"Rosa", r:255,g:80,b:150}
+];
+
+const paletteDiv = document.getElementById("palette");
+
+colores.forEach(c=>{
+    let div=document.createElement("div");
+    div.className="colorBox";
+    div.innerHTML=`
+    <div class="colorPreview" style="background:rgb(${c.r},${c.g},${c.b})"></div>
+    <div class="code">${c.name}</div>
+    `;
+    div.onclick=()=>selectedColor=c;
+    paletteDiv.appendChild(div);
+});
+
+document.getElementById("size").oninput=e=>brushSize=e.target.value;
+
+upload.onchange=e=>{
+    let reader=new FileReader();
+    reader.onload=ev=>{
+        img.onload=()=>{
+            canvas.width=img.width;
+            canvas.height=img.height;
+            ctx.drawImage(img,0,0);
+            originalImageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+            agregarMarcaAgua(); // añado marca de agua al cargar
+        }
+        img.src=ev.target.result;
+    }
+    reader.readAsDataURL(e.target.files[0]);
+};
+
+function limpiar(){
+    if(originalImageData){
+        ctx.putImageData(originalImageData,0,0);
+        agregarMarcaAgua(); // vuelvo a dibujar marca de agua
+    }
+}
+
+// función para agregar marca de agua en el centro
+function agregarMarcaAgua(){
+    if(!canvas) return;
+    const text = "@giart.color";
+    const fontSize = Math.round(canvas.width / 15); // tamaño proporcional
+    ctx.save();
+    ctx.font = `${fontSize}px Poppins, sans-serif`;
+    ctx.fillStyle = "rgba(255, 255, 255, 0.25)"; // semi-transparente
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+    ctx.restore();
+}
+
+canvas.onmousedown=()=>painting=true;
+canvas.onmouseup=()=>painting=false;
+canvas.onmouseleave=()=>painting=false;
+
+canvas.onmousemove=e=>{
+    if(!painting) return;
+
+    let x=e.offsetX;
+    let y=e.offsetY;
+
+    let umbral=parseInt(document.getElementById("umbral").value);
+    let intensidad=parseFloat(document.getElementById("intensidad").value);
+
+    let imgData=ctx.getImageData(x-brushSize,y-brushSize,brushSize*2,brushSize*2);
+    let data=imgData.data;
+
+    for(let i=0;i<data.length;i+=4){
+        let r=data[i],g=data[i+1],b=data[i+2];
+        let brillo=(r+g+b)/3;
+
+        if(brillo<umbral){
+            data[i]=r*(1-intensidad)+selectedColor.r*intensidad;
+            data[i+1]=g*(1-intensidad)+selectedColor.g*intensidad;
+            data[i+2]=b*(1-intensidad)+selectedColor.b*intensidad;
+        }
+    }
+
+    ctx.putImageData(imgData,x-brushSize,y-brushSize);
+};
+</script>
+
+</body>
+</html>
