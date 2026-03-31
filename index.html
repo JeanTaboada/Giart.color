@@ -67,7 +67,7 @@ body {
     align-items: center;
     padding: 50px 20px;
     background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)),
-        url('portada.png') center/cover no-repeat;
+        url('images/portada.png') center/cover no-repeat;
     margin-top: 60px;
 }
 
@@ -197,40 +197,45 @@ canvas {
     font-size:18px;
     color:#ff4da6;
 }
-/* botón flotante WhatsApp */
-.whatsapp {
+
+/* BOTONES FLOTANTES */
+.whatsapp, .instagram {
   position: fixed;
   bottom: 20px;
-  right: 20px;
-  background: #25D366;
-  color: white;
-  padding: 16px;
+  padding: 15px;
   border-radius: 50%;
-  font-size: 24px;
-  text-decoration: none;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  z-index: 1001; /* encima de otros elementos */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: white;
+  font-size: 22px;
 }
 
-/* botón flotante Instagram */
+.whatsapp {
+  right: 20px;
+  background: #25D366;
+}
+
 .instagram {
-  position: fixed;
-  bottom: 20px;
-  right: 90px; /* separarlo a la izquierda del WhatsApp */
-  background: #E1306C; /* color característico de Instagram */
-  color: white;
-  padding: 16px;
-  border-radius: 50%;
-  font-size: 24px;
-  text-decoration: none;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  z-index: 1001;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  right: 80px;
+  background: #E1306C;
+}
+.cuidados {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.card {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 15px;
+    width: 220px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 </style>
 </head>
@@ -253,7 +258,7 @@ canvas {
 <div>
 
 <div class="profile">
-<img src="giart.jpeg" alt="GiArt Color Studio">
+<img src="images/giart.jpeg" alt="GiArt Color Studio">
 
 <div>
 <h1>
@@ -286,17 +291,52 @@ GiArt Color Studio
     <div class="splide__track">
       <ul class="splide__list">
         <!-- Reemplaza/enriquece estas rutas con tus propias imágenes -->
-        <li class="splide__slide"><img src="cobrizo.jpeg" alt="Trabajo 1"></li>
-        <li class="splide__slide"><img src="corbizo2.jpg" alt="Trabajo 2"></li>
-        <li class="splide__slide"><img src="DOBLECOLORACION.jpeg" alt="Trabajo 3"></li>
-        <li class="splide__slide"><img src="mechas.jpg" alt="Trabajo 4"></li>
-        <li class="splide__slide"><img src="mechas2.jpg" alt="Trabajo 5"></li>
-        <li class="splide__slide"><img src="negrobrillo.jpeg" alt="Trabajo 6"></li>
+        <li class="splide__slide"><img src="images/cobrizo.jpeg" alt="Trabajo 1"></li>
+        <li class="splide__slide"><img src="images/corbizo2.jpg" alt="Trabajo 2"></li>
+        <li class="splide__slide"><img src="images/DOBLECOLORACION.jpeg" alt="Trabajo 3"></li>
+        <li class="splide__slide"><img src="images/mechas.jpg" alt="Trabajo 4"></li>
+        <li class="splide__slide"><img src="images/mechas2.jpg" alt="Trabajo 5"></li>
+        <li class="splide__slide"><img src="images/negrobrillo.jpeg" alt="Trabajo 6"></li>
       </ul>
     </div>
   </div>
 </section>
+<!-- CUIDADO POST COLORACIÓN -->
+<section class="section">
 
+<h2>Cuidado después de la coloración</h2>
+
+<p style="color:#aaa; max-width:600px; margin:auto;">
+Mantener tu color vibrante y tu cabello saludable es clave. Sigue estas recomendaciones profesionales:
+</p>
+
+<br>
+
+<div class="cuidados">
+
+<div class="card">
+<h3>🧴 Hidratación</h3>
+<p>Usa mascarillas nutritivas 2 veces por semana para evitar resequedad.</p>
+</div>
+
+<div class="card">
+<h3>🚿 Lavado adecuado</h3>
+<p>Utiliza shampoo sin sulfatos para prolongar el color.</p>
+</div>
+
+<div class="card">
+<h3>🌡️ Evita el calor</h3>
+<p>Reduce el uso de plancha o secadora para no dañar el color.</p>
+</div>
+
+<div class="card">
+<h3>☀️ Protección solar</h3>
+<p>Protege tu cabello del sol para evitar que el color se oxide.</p>
+</div>
+
+</div>
+
+</section>
 <!-- SIMULADOR -->
 <section id="simulador" class="section simulator">
 
@@ -372,11 +412,6 @@ GiArt Color Studio
 </a>
 
 </footer>
-
-<!-- Botones flotantes opcionales si quieres mantenerlos -->
-<a class="whatsapp" href="https://wa.me/51949440074" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-<a class="instagram" href="https://instagram.com/giart.color" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-
 <!-- Splide JS -->
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
 
@@ -436,23 +471,17 @@ colores.forEach(c=>{
 
 document.getElementById("size").oninput=e=>brushSize=e.target.value;
 
-upload.onchange = e => {
-    let reader = new FileReader();
-    reader.onload = ev => {
-        img.onload = () => {
-            // Limitar tamaño máximo del canvas
-            const maxWidth = 800;  // ancho máximo deseado
-            const maxHeight = 600; // alto máximo deseado
-            let ratio = Math.min(maxWidth / img.width, maxHeight / img.height, 1); // 1 evita agrandar imágenes pequeñas
-
-            canvas.width = img.width * ratio;
-            canvas.height = img.height * ratio;
-
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+upload.onchange=e=>{
+    let reader=new FileReader();
+    reader.onload=ev=>{
+        img.onload=()=>{
+            canvas.width=img.width;
+            canvas.height=img.height;
+            ctx.drawImage(img,0,0);
+            originalImageData=ctx.getImageData(0,0,canvas.width,canvas.height);
             agregarMarcaAgua(); // añado marca de agua al cargar
         }
-        img.src = ev.target.result;
+        img.src=ev.target.result;
     }
     reader.readAsDataURL(e.target.files[0]);
 };
@@ -507,50 +536,6 @@ canvas.onmousemove=e=>{
 
     ctx.putImageData(imgData,x-brushSize,y-brushSize);
 };
-// Eventos táctiles para móviles
-canvas.addEventListener("touchstart", e => {
-    e.preventDefault(); // evita scroll al tocar
-    painting = true;
-    const touch = e.touches[0];
-    pintarEn(touch.clientX, touch.clientY);
-});
-
-canvas.addEventListener("touchend", e => {
-    painting = false;
-});
-
-canvas.addEventListener("touchmove", e => {
-    e.preventDefault();
-    if (!painting) return;
-    const touch = e.touches[0];
-    pintarEn(touch.clientX, touch.clientY);
-});
-
-// Función para centralizar la lógica de pintado
-function pintarEn(clientX, clientY) {
-    const rect = canvas.getBoundingClientRect();
-    let x = clientX - rect.left;
-    let y = clientY - rect.top;
-
-    let umbral = parseInt(document.getElementById("umbral").value);
-    let intensidad = parseFloat(document.getElementById("intensidad").value);
-
-    let imgData = ctx.getImageData(x - brushSize, y - brushSize, brushSize*2, brushSize*2);
-    let data = imgData.data;
-
-    for (let i = 0; i < data.length; i += 4) {
-        let r = data[i], g = data[i+1], b = data[i+2];
-        let brillo = (r+g+b)/3;
-
-        if (brillo < umbral) {
-            data[i] = r*(1-intensidad) + selectedColor.r*intensidad;
-            data[i+1] = g*(1-intensidad) + selectedColor.g*intensidad;
-            data[i+2] = b*(1-intensidad) + selectedColor.b*intensidad;
-        }
-    }
-
-    ctx.putImageData(imgData, x - brushSize, y - brushSize);
-}      
 </script>
 
 </body>
